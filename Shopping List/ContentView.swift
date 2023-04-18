@@ -7,13 +7,36 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct Foods : View {
+    var theFood : Food
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            Text(theFood.theFoodName)
+        }
+        .padding()
+    }
+}
+
+class Food : Identifiable {
+    var theFoodName : String
+    init(theFoodName: String) {
+        self.theFoodName = theFoodName
+    }
+}
+
+struct ContentView: View {
+    @State var foods = [Food(theFoodName: "Cheese"), Food(theFoodName: "sandwich"), Food(theFoodName: "mayonaise")]
+    @State var field = ""
+    var body: some View {
+        VStack {
+            List(foods) { food in
+                Foods(theFood: food)
+            }
+            TextField("Enter item", text: $field)
+            Button("Enter") {
+                foods.append(Food(theFoodName: field))
+            }
         }
         .padding()
     }

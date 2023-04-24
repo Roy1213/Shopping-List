@@ -11,10 +11,7 @@ struct Foods : View {
     var theFood : Food
     
     var body: some View {
-        VStack {
-            Text(theFood.theFoodName)
-        }
-        .padding()
+        Text("The food is \(theFood.theFoodName)")
     }
 }
 
@@ -30,12 +27,20 @@ struct ContentView: View {
     @State var field = ""
     var body: some View {
         VStack {
-            List(foods) { food in
-                Foods(theFood: food)
+            NavigationView {
+                List(foods) { food in
+                    //Foods(theFood: food)
+                    NavigationLink(destination: Foods(theFood: food)) {
+                        Text(food.theFoodName)
+                    }
+                }
             }
             TextField("Enter item", text: $field)
             Button("Enter") {
                 foods.append(Food(theFoodName: field))
+            }
+            Button("Clear") {
+                foods = []
             }
         }
         .padding()
